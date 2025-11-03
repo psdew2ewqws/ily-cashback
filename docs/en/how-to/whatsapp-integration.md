@@ -2,7 +2,7 @@
 
 Complete guide to understanding and working with WhatsApp-triggered automatic cashback transactions.
 
----
+***
 
 ## What is WhatsApp Auto-Trigger?
 
@@ -16,7 +16,7 @@ Customer sends WhatsApp → Backend receives → Backend sends via WebSocket →
 
 **Important**: ILY Cash does NOT read or parse WhatsApp messages directly. The backend server handles WhatsApp integration and sends structured transaction data to the app via Ably WebSocket.
 
----
+***
 
 ## System Architecture
 
@@ -32,22 +32,25 @@ Customer sends WhatsApp → Backend receives → Backend sends via WebSocket →
 ### Technical Components
 
 **WebSocket Connection:**
-- **Provider**: Ably (wss://realtime.ably.io)
-- **Channel Pattern**: `channel-{branchId}`
-- **Connection**: Established after login, reconnects on branch change
-- **Status**: Green indicator on home screen = connected
+
+* **Provider**: Ably (wss://realtime.ably.io)
+* **Channel Pattern**: `channel-{branchId}`
+* **Connection**: Established after login, reconnects on branch change
+* **Status**: Green indicator on home screen = connected
 
 **Auto-Flow Service:**
-- **File**: `lib/services/auto_flow_service.dart`
-- **Role**: Handles automatic transaction processing
-- **Trigger**: Receives WebSocket messages, navigates to earn page, auto-submits form
+
+* **File**: `lib/services/auto_flow_service.dart`
+* **Role**: Handles automatic transaction processing
+* **Trigger**: Receives WebSocket messages, navigates to earn page, auto-submits form
 
 **Phone Number Indicator:**
-- **Auto-triggered transactions**: Phone starts with `E-` prefix
-- **Example**: `E-0791234567` indicates backend-triggered transaction
-- **Manual transactions**: Regular format `0791234567`
 
----
+* **Auto-triggered transactions**: Phone starts with `E-` prefix
+* **Example**: `E-0791234567` indicates backend-triggered transaction
+* **Manual transactions**: Regular format `0791234567`
+
+***
 
 ## How to Identify Auto-Triggered Transactions
 
@@ -58,42 +61,47 @@ Customer sends WhatsApp → Backend receives → Backend sends via WebSocket →
 ![Auto Phone](../../images/screenshots/cashback-enter-phone.png)
 
 When you see phone number starting with `E-`:
-- Example: `E-0790000001`
-- This means: Backend sent this transaction via WhatsApp
-- Form will auto-submit (no manual input needed)
+
+* Example: `E-0790000001`
+* This means: Backend sent this transaction via WhatsApp
+* Form will auto-submit (no manual input needed)
 
 **2. System Tray Notification**
 
 When auto-trigger occurs:
-- Windows notification appears in system tray
-- Message: "New transaction received"
-- App window auto-focuses
+
+* Windows notification appears in system tray
+* Message: "New transaction received"
+* App window auto-focuses
 
 **3. Automatic Navigation**
 
-- App automatically navigates to Earn Cashback page
-- Form is pre-filled with data from backend
-- Auto-submit happens within 2-3 seconds
+* App automatically navigates to Earn Cashback page
+* Form is pre-filled with data from backend
+* Auto-submit happens within 2-3 seconds
 
----
+***
 
 ## User Experience: What Happens
 
 ### Scenario: Backend Sends WhatsApp Transaction
 
 **Step 1: You're Working**
-- ILY Cash is running (minimized or visible)
-- You're serving other customers or doing other tasks
+
+* ILY Cash is running (minimized or visible)
+* You're serving other customers or doing other tasks
 
 **Step 2: Notification Appears**
-- System tray notification: "New transaction received"
-- ILY Cash window auto-focuses (comes to front)
+
+* System tray notification: "New transaction received"
+* ILY Cash window auto-focuses (comes to front)
 
 **Step 3: Automatic Processing**
-- App navigates to Earn Cashback page
-- You see phone number with `E-` prefix
-- Form auto-fills and submits (no input needed)
-- Processing takes 3-5 seconds
+
+* App navigates to Earn Cashback page
+* You see phone number with `E-` prefix
+* Form auto-fills and submits (no input needed)
+* Processing takes 3-5 seconds
 
 **Step 4: Result Dialog**
 
@@ -102,20 +110,22 @@ When auto-trigger occurs:
 ![Success](../../images/screenshots/cashback-success.png)
 
 Dialog shows:
-- Transaction confirmation
-- Bill number processed
-- Cashback amount earned
-- Customer phone (masked: `****1234`)
+
+* Transaction confirmation
+* Bill number processed
+* Cashback amount earned
+* Customer phone (masked: `****1234`)
 
 **Failure:**
 
 If validation fails, you'll see error dialog:
-- Bill too low (< 2 JOD)
-- Duplicate bill
-- Customer blacklisted
-- Security PIN lock triggered
 
----
+* Bill too low (< 2 JOD)
+* Duplicate bill
+* Customer blacklisted
+* Security PIN lock triggered
+
+***
 
 ## Security Features for Auto-Trigger
 
@@ -123,11 +133,11 @@ If validation fails, you'll see error dialog:
 
 Auto-triggered transactions go through **same security checks** as manual transactions:
 
-- ✅ Bill amount validation (minimum 2.00 JOD)
-- ✅ Duplicate bill detection
-- ✅ Customer blacklist check
-- ✅ **PIN lock security check** (1 redemption per 12 hours)
-- ✅ Backend authentication validation
+* ✅ Bill amount validation (minimum 2.00 JOD)
+* ✅ Duplicate bill detection
+* ✅ Customer blacklist check
+* ✅ **PIN lock security check** (1 redemption per 12 hours)
+* ✅ Backend authentication validation
 
 ### 2. PIN Lock Can Block Auto-Flow
 
@@ -136,6 +146,7 @@ Auto-triggered transactions go through **same security checks** as manual transa
 **Important**: If customer has processed 1+ transaction within 12 hours, PIN lock will trigger even for auto-triggered transactions.
 
 **What happens:**
+
 1. Backend sends auto-trigger
 2. ILY Cash detects redemption limit reached
 3. Red security PIN dialog appears (blocks auto-submit)
@@ -151,12 +162,13 @@ Auto-triggered transactions go through **same security checks** as manual transa
 ![Fraud Alert](../../images/screenshots/fraud-alert-blacklist.png)
 
 If customer is blacklisted:
-- Orange warning dialog appears
-- Transaction is blocked
-- You cannot override
-- Customer must contact ILY support
 
----
+* Orange warning dialog appears
+* Transaction is blocked
+* You cannot override
+* Customer must contact ILY support
+
+***
 
 ## Monitoring Auto-Trigger Activity
 
@@ -172,18 +184,21 @@ ILY_Cash.exe
 **Look for these log patterns:**
 
 **WebSocket Connection:**
+
 ```
 ✅ WebSocket connected to channel-12345
 🔌 Ably connection state: connected
 ```
 
 **Incoming Message:**
+
 ```
 📩 Message received on channel-12345
 🚀 Auto-flow started for E-0791234567
 ```
 
 **Processing:**
+
 ```
 🔒 Security check: PASSED (0 redemptions in 12h)
 💾 RECORDING REDEMPTION for 0791234567 at 2025-01-15 14:30:22
@@ -191,6 +206,7 @@ ILY_Cash.exe
 ```
 
 **Security Block:**
+
 ```
 🔒 Security check: FAILED (1 redemption in 12h)
 🔐 PIN lock triggered for 0791234567
@@ -200,24 +216,27 @@ ILY_Cash.exe
 ### Home Screen Status Indicator
 
 **Server Status** (top bar):
-- **Green dot**: WebSocket connected, auto-trigger active
-- **Red dot**: WebSocket disconnected, auto-trigger won't work
-- **Yellow dot**: Connecting...
 
----
+* **Green dot**: WebSocket connected, auto-trigger active
+* **Red dot**: WebSocket disconnected, auto-trigger won't work
+* **Yellow dot**: Connecting...
+
+***
 
 ## Troubleshooting Auto-Trigger Issues
 
 ### Issue 1: Auto-Trigger Not Working
 
 **Symptoms:**
-- No notification when backend sends transaction
-- App doesn't auto-navigate
-- Manual transactions work fine
+
+* No notification when backend sends transaction
+* App doesn't auto-navigate
+* Manual transactions work fine
 
 **Solutions:**
 
 **Check 1: ILY Cash is Running**
+
 ```
 ✅ Check Windows system tray for ILY icon
 ✅ If not visible, launch ILY_Cash.exe
@@ -225,6 +244,7 @@ ILY_Cash.exe
 ```
 
 **Check 2: WebSocket Connected**
+
 ```
 ✅ Look at home screen top bar
 ✅ Green indicator = WebSocket connected
@@ -232,12 +252,14 @@ ILY_Cash.exe
 ```
 
 **Check 3: Logged In**
+
 ```
 ✅ You must be logged in for WebSocket to connect
 ❌ WebSocket disconnects on logout
 ```
 
 **Check 4: Internet Connection**
+
 ```cmd
 ping cashback-api.meeza.app
 
@@ -247,6 +269,7 @@ ping cashback-api.meeza.app
 **Check 5: Console Logs**
 
 Run from command line and look for:
+
 ```
 ✅ WebSocket connected
 📩 Message received
@@ -254,6 +277,7 @@ Run from command line and look for:
 ```
 
 If you see:
+
 ```
 ❌ WebSocket connection failed
 🔌 Ably error: Connection timeout
@@ -261,14 +285,15 @@ If you see:
 
 Solution: Check internet connection, verify backend is running
 
----
+***
 
 ### Issue 2: Auto-Trigger Shows Error Every Time
 
 **Symptoms:**
-- Auto-trigger works (notification appears)
-- But always shows error dialog
-- Specific error message appears
+
+* Auto-trigger works (notification appears)
+* But always shows error dialog
+* Specific error message appears
 
 **Common Errors:**
 
@@ -279,11 +304,12 @@ Solution: Check internet connection, verify backend is running
 **Cause**: Backend sent bill value < 2.00 JOD
 
 **Solution**:
-- Contact backend team
-- Verify WhatsApp message format
-- Check backend validation rules
 
----
+* Contact backend team
+* Verify WhatsApp message format
+* Check backend validation rules
+
+***
 
 **Error: "Duplicate bill number"**
 
@@ -292,11 +318,12 @@ Solution: Check internet connection, verify backend is running
 **Cause**: Bill number already processed in last 30 days
 
 **Solution**:
-- Bill was already submitted (manually or auto)
-- Check transaction history
-- Verify bill number is correct
 
----
+* Bill was already submitted (manually or auto)
+* Check transaction history
+* Verify bill number is correct
+
+***
 
 **Error: "Customer blacklisted"**
 
@@ -305,24 +332,27 @@ Solution: Check internet connection, verify backend is running
 **Cause**: Backend marked customer as fraudulent
 
 **Solution**:
-- DO NOT process transaction
-- Customer must contact ILY support
-- Cannot be overridden
 
----
+* DO NOT process transaction
+* Customer must contact ILY support
+* Cannot be overridden
+
+***
 
 ### Issue 3: PIN Lock Blocks Every Auto-Trigger
 
 **Symptoms:**
-- Auto-trigger notification appears
-- Security PIN dialog shows immediately
-- Must enter PIN 2941 for every transaction
+
+* Auto-trigger notification appears
+* Security PIN dialog shows immediately
+* Must enter PIN 2941 for every transaction
 
 **Cause**: Customer has processed 1+ transaction within 12 hours
 
 **Solutions:**
 
 **Solution 1: Enter PIN (Correct)**
+
 ```
 1. Red security dialog appears
 2. Enter PIN: 2941
@@ -346,14 +376,15 @@ static const int maxRedemptionsBeforeLock = 5; // Allow 5 transactions
 
 **Warning**: Lowering security increases fraud risk.
 
----
+***
 
 ### Issue 4: Monitoring Phone Not Triggering
 
 **Symptoms:**
-- Monitoring phone (0790000001) should bypass security
-- But PIN lock still triggers
-- Manual entry works without PIN
+
+* Monitoring phone (0790000001) should bypass security
+* But PIN lock still triggers
+* Manual entry works without PIN
 
 **Cause**: Whitelist check may not apply to auto-trigger flow
 
@@ -372,12 +403,14 @@ Verify monitoring phone is correctly configured.
 **Debug**:
 
 Run from console and look for:
+
 ```
 🔒 Security check for 0790000001
 ✅ Monitoring phone detected - bypassing security
 ```
 
 If you see:
+
 ```
 🔒 Security check for 0790000001
 🔐 PIN lock triggered
@@ -385,7 +418,7 @@ If you see:
 
 Contact technical support - whitelist not working for auto-trigger.
 
----
+***
 
 ## Technical Details
 
@@ -394,6 +427,7 @@ Contact technical support - whitelist not working for auto-trigger.
 **File**: `lib/services/websocket_service.dart`
 
 **Connection Lifecycle:**
+
 1. **Login** → WebSocket connects with branch ID
 2. **Subscribe** to `channel-{branchId}`
 3. **Listen** for messages
@@ -401,11 +435,13 @@ Contact technical support - whitelist not working for auto-trigger.
 5. **Logout** → WebSocket disconnects
 
 **Reconnection Logic:**
-- Auto-reconnects on connection drop
-- Exponential backoff: 1s, 2s, 4s, 8s...
-- Max retry: 5 attempts
+
+* Auto-reconnects on connection drop
+* Exponential backoff: 1s, 2s, 4s, 8s...
+* Max retry: 5 attempts
 
 **Message Format** (from backend):
+
 ```json
 {
   "type": "earn_cashback",
@@ -422,6 +458,7 @@ Contact technical support - whitelist not working for auto-trigger.
 **File**: `lib/services/auto_flow_service.dart`
 
 **Processing Steps:**
+
 1. Receive WebSocket message
 2. Parse transaction data
 3. Add `E-` prefix to phone number
@@ -460,7 +497,7 @@ if (shouldTriggerSecurity && !isMonitoringPhone) {
 
 **This was a bug fix** - previously auto-trigger bypassed security. Now fixed to run security for all transactions.
 
----
+***
 
 ## Configuration Options
 
@@ -469,8 +506,9 @@ if (shouldTriggerSecurity && !isMonitoringPhone) {
 **WebSocket Configuration:**
 
 No configuration file - hardcoded in `websocket_service.dart`:
-- Ably endpoint: `wss://realtime.ably.io`
-- Channel pattern: `channel-{branchId}`
+
+* Ably endpoint: `wss://realtime.ably.io`
+* Channel pattern: `channel-{branchId}`
 
 **Auto-Trigger Behavior:**
 
@@ -495,21 +533,21 @@ static const String securityPin = "2941";
 
 **Important**: To change PIN, modify securityPin constant and rebuild app.
 
----
+***
 
 ## Comparison: Manual vs Auto-Trigger
 
-| Aspect | Manual Entry | Auto-Trigger (WhatsApp) |
-|--------|-------------|------------------------|
-| **Initiation** | User clicks "Earn Cashback" | Backend sends WebSocket message |
-| **Phone Format** | `0791234567` | `E-0791234567` |
-| **Form Input** | Manual typing | Pre-filled from backend |
-| **Speed** | 30-60 seconds | 5-10 seconds |
-| **Security Checks** | All validations apply | **All validations apply** (PIN lock, fraud, duplicate) |
-| **User Attention** | Full attention required | Minimal attention (just verify success) |
-| **Best For** | Single transactions, learning | High-volume processing, efficiency |
+| Aspect              | Manual Entry                  | Auto-Trigger (WhatsApp)                                |
+| ------------------- | ----------------------------- | ------------------------------------------------------ |
+| **Initiation**      | User clicks "Earn Cashback"   | Backend sends WebSocket message                        |
+| **Phone Format**    | `0791234567`                  | `E-0791234567`                                         |
+| **Form Input**      | Manual typing                 | Pre-filled from backend                                |
+| **Speed**           | 30-60 seconds                 | 5-10 seconds                                           |
+| **Security Checks** | All validations apply         | **All validations apply** (PIN lock, fraud, duplicate) |
+| **User Attention**  | Full attention required       | Minimal attention (just verify success)                |
+| **Best For**        | Single transactions, learning | High-volume processing, efficiency                     |
 
----
+***
 
 ## Best Practices
 
@@ -520,83 +558,84 @@ static const String securityPin = "2941";
 **Why**: WebSocket only receives messages when app is running
 
 **How**:
+
 1. Click minimize (not close)
 2. App goes to system tray
 3. Right-click icon → "Keep running in background"
 
----
+***
 
 ### 2. Monitor WebSocket Status
 
 **Check before busy periods:**
-- Look at home screen status indicator
-- Green dot = ready for auto-trigger
-- Red dot = reconnect (logout → login)
+
+* Look at home screen status indicator
+* Green dot = ready for auto-trigger
+* Red dot = reconnect (logout → login)
 
 **If red**:
+
 1. Logout
 2. Login again
 3. WebSocket reconnects automatically
 4. Status turns green
 
----
+***
 
 ### 3. Watch for Notifications
 
 **When notification appears:**
+
 1. Don't ignore it
 2. Watch for result dialog
 3. Verify success before continuing
 4. Check for errors (PIN lock, fraud, duplicate)
 
----
+***
 
 ### 4. Enter PIN Quickly When Required
 
 **If security PIN appears:**
-- Enter 2941 immediately
-- Transaction has short timeout
-- Don't let it sit too long
 
----
+* Enter 2941 immediately
+* Transaction has short timeout
+* Don't let it sit too long
+
+***
 
 ### 5. Review Console Logs Periodically
 
 **For administrators:**
 
 Run from command line once per week:
+
 ```cmd
 ILY_Cash.exe
 ```
 
 Look for patterns:
-- Frequent PIN locks → may need to adjust security threshold
-- Frequent fraud alerts → review customer verification process
-- WebSocket disconnections → check network stability
 
----
+* Frequent PIN locks → may need to adjust security threshold
+* Frequent fraud alerts → review customer verification process
+* WebSocket disconnections → check network stability
+
+***
 
 ## Common Questions
 
-**Q: Can I disable auto-trigger?**
-A: No, auto-trigger is always active when logged in. It's a core feature.
+**Q: Can I disable auto-trigger?** A: No, auto-trigger is always active when logged in. It's a core feature.
 
-**Q: Why does auto-trigger ask for PIN?**
-A: Security check detected customer has processed transactions recently. This is fraud prevention.
+**Q: Why does auto-trigger ask for PIN?** A: Security check detected customer has processed transactions recently. This is fraud prevention.
 
-**Q: Can I adjust the 12-hour security window?**
-A: Yes, administrators can modify `redemptionTimeWindowHours` in `security_config.dart` and rebuild.
+**Q: Can I adjust the 12-hour security window?** A: Yes, administrators can modify `redemptionTimeWindowHours` in `security_config.dart` and rebuild.
 
-**Q: What if backend sends incorrect data?**
-A: ILY Cash validates all data. If invalid, error dialog appears and transaction is blocked.
+**Q: What if backend sends incorrect data?** A: ILY Cash validates all data. If invalid, error dialog appears and transaction is blocked.
 
-**Q: Can I process auto-trigger manually instead?**
-A: No, when backend sends via WebSocket, it auto-processes. You cannot intercept or manually review before submission.
+**Q: Can I process auto-trigger manually instead?** A: No, when backend sends via WebSocket, it auto-processes. You cannot intercept or manually review before submission.
 
-**Q: Does monitoring phone (0790000001) bypass PIN lock for auto-trigger?**
-A: It should, but verify in console logs. Look for "Monitoring phone detected - bypassing security" message.
+**Q: Does monitoring phone (0790000001) bypass PIN lock for auto-trigger?** A: It should, but verify in console logs. Look for "Monitoring phone detected - bypassing security" message.
 
----
+***
 
 ## Troubleshooting Checklist
 
@@ -631,34 +670,36 @@ Security PIN Appears Too Often?
 [ ] Verify customer is not processing multiple transactions rapidly
 ```
 
----
+***
 
 ## Related Documentation
 
-- **[Process Cashback (Manual)](process-cashback.md)** - Manual transaction flow
-- **[Troubleshooting Guide](../troubleshooting/common-errors.md)** - All error scenarios
-- **[Getting Started](../getting-started/README.md)** - Home screen and status indicators
-- **[Security System](../technical/security.md)** - PIN lock and fraud detection details
+* [**Process Cashback (Manual)**](process-cashback.md) - Manual transaction flow
+* [**Troubleshooting Guide**](../troubleshooting/common-errors.md) - All error scenarios
+* [**Getting Started**](../../../) - Home screen and status indicators
+* [**Security System**](../technical/security.md) - PIN lock and fraud detection details
 
----
+***
 
 ## Technical Support
 
 **For Issues:**
-- **Auto-trigger not receiving**: Check WebSocket connection, verify backend integration
-- **PIN lock blocking**: Enter 2941, review security_config.dart settings
-- **Fraud alerts**: Customer must contact ILY support
-- **Configuration changes**: Administrators can modify config.json and security_config.dart
+
+* **Auto-trigger not receiving**: Check WebSocket connection, verify backend integration
+* **PIN lock blocking**: Enter 2941, review security\_config.dart settings
+* **Fraud alerts**: Customer must contact ILY support
+* **Configuration changes**: Administrators can modify config.json and security\_config.dart
 
 **Debug Mode:**
 
 Run from command line for detailed logs:
+
 ```cmd
 C:\Program Files\ILY Cash\ILY_Cash.exe
 ```
 
 Monitor output for WebSocket events, security checks, and transaction processing.
 
----
+***
 
 **Auto-trigger system documentation complete.** For FAQ and general questions, see [FAQ section](../faq/general.md).
