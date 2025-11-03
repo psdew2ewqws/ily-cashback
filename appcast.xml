@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>ILY Cash Updates</title>
+    <description>Auto-update feed for ILY Cash application</description>
+    <language>en</language>
+
+    <item>
+      <!-- Update this section for each new version -->
+      <title>Version 3.5.8</title>
+      <description>
+        <![CDATA[
+          <h2>What's New in 3.5.8</h2>
+          <ul>
+            <li>Arabic translation for all dialogs (fraud alerts, success popups, error messages)</li>
+            <li>Fixed critical bug: Bills below 2 JD minimum now show error dialog instead of freezing</li>
+            <li>Fixed WhatsApp auto-flow validation bypass issue</li>
+            <li>Enhanced error handling and user feedback</li>
+            <li>Improved auto-update reliability</li>
+          </ul>
+        ]]>
+      </description>
+
+      <!-- Publication date of this version -->
+      <pubDate>Fri, 01 Nov 2025 11:47:00 +0300</pubDate>
+
+      <!-- Windows update info -->
+      <enclosure
+        url="https://github.com/psdew2ewqws/ily-cashback/releases/download/v3.5.8/ILY_Cash_v3.5.8.zip"
+        sparkle:version="3.5.8"
+        type="application/octet-stream"
+        length="19500000"
+      />
+
+      <!-- Optional: Release notes URL -->
+      <sparkle:releaseNotesLink>
+        https://github.com/psdew2ewqws/ily-cashback/releases/tag/v3.5.8
+      </sparkle:releaseNotesLink>
+    </item>
+
+    <!-- Previous version for reference -->
+    <item>
+      <title>Version 3.5.7</title>
+      <description>
+        <![CDATA[
+          <h2>What's New in 3.5.7</h2>
+          <ul>
+            <li>Fixed critical bug with blacklisted customers freezing app</li>
+            <li>Added WinSparkle auto-update system (no admin required)</li>
+            <li>Fixed 5 production bugs before release</li>
+            <li>Daily update checks at 11 AM Jordan Time</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Mon, 28 Oct 2025 00:00:00 +0300</pubDate>
+      <enclosure
+        url="https://github.com/psdew2ewqws/ily-cashback/releases/download/v3.5.7/ILY_Cash-3.5.7-Setup.exe"
+        sparkle:version="3.5.7"
+        type="application/octet-stream"
+        length="104857600"
+      />
+      <sparkle:releaseNotesLink>
+        https://github.com/psdew2ewqws/ily-cashback/releases/tag/v3.5.7
+      </sparkle:releaseNotesLink>
+    </item>
+
+    <!--
+    ========================================
+    HOW TO UPDATE FOR NEW RELEASES
+    ========================================
+
+    1. Add a new <item> block above for each new version
+    2. Update the following fields:
+       - <title>: New version number
+       - <description>: Release notes in HTML
+       - <pubDate>: Publication date (format: Day, DD Mon YYYY HH:MM:SS +TIMEZONE)
+       - <enclosure url="">: GitHub release download URL
+       - <enclosure sparkle:version="">: Version number
+       - <enclosure length="">: File size in bytes (approximate)
+       - <sparkle:releaseNotesLink>: GitHub release page URL
+
+    3. Example for version 3.5.8:
+
+    <item>
+      <title>Version 3.5.8</title>
+      <description>
+        <![CDATA[
+          <h2>What's New in 3.5.8</h2>
+          <ul>
+            <li>New feature description</li>
+            <li>Bug fix description</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Tue, 29 Oct 2025 11:00:00 +0300</pubDate>
+      <enclosure
+        url="https://github.com/psdew2ewqws/ily-cashback/releases/download/v3.5.8/ILY_Cash-3.5.8-Setup.exe"
+        sparkle:version="3.5.8"
+        type="application/octet-stream"
+        length="105000000"
+      />
+      <sparkle:releaseNotesLink>
+        https://github.com/psdew2ewqws/ily-cashback/releases/tag/v3.5.8
+      </sparkle:releaseNotesLink>
+    </item>
+
+    4. Upload this file to your GitHub repository (main branch)
+    5. Update the URL in winsparkle_update_service.dart if needed
+
+    ========================================
+    -->
+
+  </channel>
+</rss>
